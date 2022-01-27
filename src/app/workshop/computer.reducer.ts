@@ -5,7 +5,7 @@
  */
 import { createReducer, on } from "@ngrx/store";
 import { NavigationData } from "../nav-db.service";
-import { echo, loadNavDataSuccess } from "./computer.actions";
+import { echo, loadNavDataSuccess, enableShield } from "./computer.actions";
 
 /**
  * This is the "slice" that you need to fill out!
@@ -24,12 +24,14 @@ export interface ComputerState{
      * 
      * feel free to change or remove this
      */
-    echoMessages: string[]
+    echoMessages: string[],
+    shieldPercentage: number,
     //TODO: add a lot more state!
 }
 
 export const InitialComputerState: ComputerState = {
-    echoMessages: []
+    echoMessages: [],
+    shieldPercentage: 0,
     //TODO: add additional initial state!
 }
 
@@ -44,6 +46,13 @@ export const computerReducer = createReducer<ComputerState>(
             ]
         };
     }),
+    on(enableShield, (state, action) => {
+        return {
+            ...state,
+            shieldPercentage: action.shieldPercentage
+        };
+    }),
+    
     //TODO: add an on() listener for loadNavDataSuccess that puts NavigationData[] in the state!
     //TODO: use the NavigationData[] to set viewscreen state depending on location and/or course!
     //TODO: add a lot more reducer action logic!

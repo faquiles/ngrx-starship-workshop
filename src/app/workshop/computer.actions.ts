@@ -14,6 +14,11 @@ export const echo = createAction(
     props<{message: string}>()
 );
 
+
+export const enableShield = createAction(
+    '[computer] enable shield', 
+    props<{shieldPercentage: number}>()
+);
 // these three actions are for loading Navigation data
 export const loadNavData = createAction('[computer] Load Navigation Data');
 export const loadNavDataSuccess = createAction('[computer] Load Navigation Data Success', props<{navs: NavigationData[]}>());

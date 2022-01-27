@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { Store } from "@ngrx/store";
 import { AppState } from "../app.state";
 import { IComputerDirective } from "../challenge.service";
-import { echo, loadNavData } from "./computer.actions";
+import { echo, enableShield, loadNavData } from "./computer.actions";
 
 /**
  * computer service to interface between captain's commands and ngrx store
@@ -26,14 +26,20 @@ export class ComputerService{
      */
     public InterpretDirectives(directives: IComputerDirective[]){
         //TODO: decide which actions to dispatch based on the directives passed in!
-        directives.forEach(x => this.store.dispatch(
-            //TODO: you don't have to echo all the directives, do what you want!
-            echo(
-                {
-                    message: this.directiveToMessage(x)
-                }
-            )
-        ));
+        directives.forEach(x => {
+            this.store.dispatch(
+                //TODO: you don't have to echo all the directives, do what you want!
+                echo(
+                    {
+                        message: this.directiveToMessage(x)
+                    }
+                )
+            );
+
+            if (x.directObject === 'shields') {
+                if (x.verb === 'engage') this.store.dispatch(enableShield({shieldPercentage: 10}));
+            }
+        });
     }
 
     /**
